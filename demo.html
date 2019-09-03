@@ -3,24 +3,46 @@
 
 <head>
     <title>BarChart Demo Page</title>
-    <script src="bChart.js"></script>    
+    <script src="bChart.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 
 
-<h1 id="demo">
-    BarChart goes here
-</h1>
+<body id="demo">
+  <!-- <div style="width:10px;height:500px;float: left">
+        <div style="width:10px;height:25%;background-color:red"> 1 </div>
+        <div style="width:10px;height:25%;background-color:green"> 2 </div>
+        <div style="width:10px;height:25%;background-color:blue;color: white"> 3 </div>
+    </div>
+
+    <div style="width:10px;height:500px;background-color: black;float: left"></div>
+
+    <div style="width:30px;height:500px;float:left">
+        <div style="width:100%;height:300px;float: left"></div>
+        <div style="width:100%;height:200px;background-color: yellow;float: left"></div>
+    </div>
+
+    <div style="width:30px;height:500px;float:left">
+            <div style="width:100%;height:200px;float: left"></div>
+            <div style="width:100%;height:300px;background-color: yellow;float: left"></div>
+        </div>
+
+    <div style="width:30px;height:300px;background-color: green;float:left"></div>
+    <div style="width:30px;height:400px;background-color: green;float:left"></div>
+    <div style="width:30px;height:500px;background-color: green"></div>
+
+    <div style="width:500px;height:10px;background-color: black"></div>
+--> 
+</body>
 
 
-<script> 
+<script>
 
-var opts = {
-    height:100,
-    width: 100,
-    color:["b","r","g","y"],
-};
+    var opts = {
+        height: 700,
+        width: 700,
+        color: ["b", "r", "g", "y"],
+    };
 
-drawBarChart( [1, 2, 3, 4, 5] ,opts ,$("#demo"));
-
+    drawBarChart([1, 2, 3, 4, 5], opts, $("#demo"));
 </script>
