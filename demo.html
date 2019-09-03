@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+
+<head>
+    <title>BarChart Demo Page</title>
+    <script src="bChart.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+
+<h1 id="demo">
+    BarChart goes here
+</h1>
+
+
+<script> 
+
+var opts = {
+    height:100,
+    width: 100,
+    color:["b","r","g","y"],
+};
+
+drawBarChart( [1, 2, 3, 4, 5] ,opts ,$("#demo"));
+
+</script>
