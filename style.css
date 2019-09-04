@@ -1,8 +1,14 @@
-.vertical-center {
+.label {
     margin: 0;
-    position: absolute;
+    position: relative;
     top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    color:"yellow";
+    left:25%;
+    color:"balck";
   }
+
+.barchart {
+      position:relative;    
+      width: 500;
+      height: 500;
+  }
+

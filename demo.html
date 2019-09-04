@@ -42,13 +42,21 @@
 
     var opts = {
         height: 700,
-        width: 700,
+        width: 1000,
         color: "#00FF00",
-        labelColor: "red",
         titleText: "asdf",
         titleColor: "Green",
-        titleSize: "30",
+        titleSize: "20",
+        spacing: "20",
+        labelCentering: "bottom",
     };
 
-    drawBarChart([1, 2, 3, 4, 5, 10], opts, $("#demo"));
+    drawBarChart(
+        {
+            label1: 1,
+            label2: 2,
+            label3: 3,
+            label4: 10
+        }
+, opts, $("#demo"));
 </script>
