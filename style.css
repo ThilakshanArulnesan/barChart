@@ -2,7 +2,7 @@
     margin: 0;
     position: relative;
     top: 50%;
-    left:45%;
+    left:50%;
     color:"black";
   }
 
@@ -10,10 +10,11 @@
       position:relative;    
       width: 500;
       height: 500;
-  }
+}
 
-  .xlabel {
+.xlabel {
     position:relative;    
-    left:40%
+    left:40%;
+    color:"black";
 }
 

@@ -1,5 +1,6 @@
 function drawBarChart(data, options, element) {
     const AXES_WIDTH = 10;
+    const WIDTH_OF_TICKS = 50;
     //Sets default properties if they are undefined
     options = setDefaults(options, data);
     data = arrayify(data);
@@ -12,13 +13,14 @@ function drawBarChart(data, options, element) {
         appendText += drawDiv(options.titleSize, options.width, options.titleText, "title"); //Title
     }
 
-    appendText += drawDiv(options.height - options.titleSize, AXES_WIDTH, "", "axis"); //Y-axis   
+    appendText += drawTicks(options.height - options.titleSize, WIDTH_OF_TICKS, data,options.yMax,options.numTicks); //Y-ticks  
+    appendText += drawDiv(options.height - options.titleSize-AXES_WIDTH, AXES_WIDTH, "", "axis"); //Y-axis   
 
     //Subtract 10 from the width of the bars because there is less space due to axes
-    appendText += drawBars(data, options.height - options.titleSize, options.width - AXES_WIDTH, options.spacing, options.color, options.labelColor);
-    appendText += drawDiv(AXES_WIDTH, options.width, "", "axis"); //X -axis
+    appendText += drawBars(data,options.yMax, options.height - options.titleSize-AXES_WIDTH, options.width - AXES_WIDTH-WIDTH_OF_TICKS, options.spacing, options.color, options.labelColor);
+    appendText += drawDiv(AXES_WIDTH, options.width-WIDTH_OF_TICKS, "", "axis"); //X -axis
 
-    appendText += drawXLabels(data, 20, options.width - AXES_WIDTH, options.spacing); //X -axis
+    appendText += drawXLabels(data, 20, options.width - AXES_WIDTH-WIDTH_OF_TICKS, options.spacing); //X -axis
 
     appendText += '</div>';
     element.append(appendText);
@@ -30,6 +32,41 @@ function drawBarChart(data, options, element) {
     $(".title").css({ "font-size": options.titleSize + "px" });
 
     formatLabel(options.labelCentering, options.labelColor);
+}
+
+
+function drawTicks(h, w,d,yMax, nTicks) {
+    const SIZE_OF_TICKS = 3;
+    let sizeOfBlanks = (h-nTicks*SIZE_OF_TICKS)/nTicks;
+    console.log(yMax);
+    
+    if(yMax === undefined || yMax < findMax(d)){
+        yMax = findMax(d);
+    }
+
+    //creates a divider to put all the ticks in of height h, width w
+    let st = '<div class="yticks" style="width:' + w + "px" +
+        ';height:' + h +
+        'px;float:left;text-align:center">' ;
+
+    for(let i = 0;i<nTicks;i++){
+
+        st += '<div  class="tick" style="width:' + w/3 + "px" +
+        ';height:' + SIZE_OF_TICKS +
+        'px;float:right;background-color:black">'+
+        '</div>' ;
+
+        st += '<div  class="tick" style="width:' + 2*w/3 + "px" +
+        ';height:' + SIZE_OF_TICKS +
+        'px;float:right">'+
+        ((nTicks-i)*yMax/nTicks).toFixed(1)+'</div>' ;
+
+         st += '<div  class="blankSpace" style="width:' + w + "px" +
+        ';height:' + sizeOfBlanks +
+        'px;float:left;text-align:center"></div>' ;
+
+    }
+    return st + '</div>';
 }
 
 function arrayify(d){
@@ -88,6 +125,7 @@ function setDefaults(options) {
     if (options.titleSize === undefined) options.titleSize = "12";
     if (options.spacing === undefined) options.spacing = "0";
     if (options.labelCentering === undefined) options.labelCentering = "50";
+    if (options.numTicks === undefined) options.numTicks = 4;
 
     return options;
 
@@ -115,7 +153,8 @@ function drawXLabels(data, h, w, bufferWidth) {
     let barWidth = (w - bufferWidth * (nBars + 1)) / (nBars);
 
     //This adds a space between the y-axis and the first bar.
-    st += '<div style="width:' + bufferWidth + "px" + ';height:' + h + 'px;float:left"></div>';
+    let initialSpace = parseFloat(bufferWidth) + 60.;
+    st += '<div style="width:' + initialSpace + "px" + ';height:' + h + 'px;float:left"></div>';
 
     for (barVals in data) {
         //Creates a label divider. The class xlabel can be manipulated as needed
@@ -129,8 +168,10 @@ function drawXLabels(data, h, w, bufferWidth) {
 }
 
 
-function drawBars(data, h, w, bufferWidth, colors,labelColors) {
-    let maxVal = findMax(data); //Finds the maximum value, normalizes the sizes of the bars using this value
+function drawBars(data, maxVal, h, w, bufferWidth, colors,labelColors) {
+    if(maxVal === undefined || maxVal < findMax(data)){
+        maxVal = findMax(data);//Finds the maximum value, normalizes the sizes of the bars using this value
+    } 
     let nBars = Object.keys(data).length; //# of bars of data we have to add
     let st = "";
 
@@ -145,7 +186,6 @@ function drawBars(data, h, w, bufferWidth, colors,labelColors) {
     st += '<div style="width:' + bufferWidth + "px" + ';height:' + h + 'px;float:left"></div>';
 
     for (barVals in data) {
-        console.log(data[barVals]);
 
         //Adds a bar (containing data):
 
