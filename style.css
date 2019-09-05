@@ -1,9 +1,9 @@
 .label {
     margin: 0;
-    position: relative;
+    position: absolute;
     top: 50%;
     left:50%;
-    color:"black";
+    font-size: 1em;
   }
 
 .barchart {
@@ -12,9 +12,20 @@
       height: 500;
 }
 
-.xlabel {
-    position:relative;    
-    left:40%;
-    color:"black";
+.bar {
+  position:relative; 
+  float:left;
+  vertical-align:middle;
+  display:none;
 }
 
+.xlabel {
+    color:"black";
+    text-align:center;
+    float:left;
+    font-size: 2em;
+
+}
+.tick {
+  font-size: 20px;
+}

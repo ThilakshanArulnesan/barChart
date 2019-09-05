@@ -1,80 +1,88 @@
 function drawBarChart(data, options, element) {
     const AXES_WIDTH = 10;
     const WIDTH_OF_TICKS = 50;
-    //Sets default properties if they are undefined
-    options = setDefaults(options, data);
-    data = arrayify(data);
-    let appendText = "";
-    let blnTitle = options.titleText === undefined;
 
-    appendText += '<div class="barchart" >'; //Container for barchart
 
-    if (!blnTitle) {
+    options = setDefaults(options, data);//Sets default properties if they are have not been provided by the user
+    data = arrayify(data); //Makes the data an array if not already done. 
+
+    let appendText = ""; //This will be where all the HTML that is being added will be stored as a string
+
+    let blnTitle = options.titleText === undefined; //Is there a title or not?
+
+    appendText += '<div class="barchart" >'; //Container for the entire barchart
+
+    if (options.titleText !== undefined) { //Adds a title divider with the title text if there is a title
         appendText += drawDiv(options.titleSize, options.width, options.titleText, "title"); //Title
+    } else {
+        options.titleSize = 0;
     }
 
-    appendText += drawTicks(options.height - options.titleSize, WIDTH_OF_TICKS, data,options.yMax,options.numTicks); //Y-ticks  
-    appendText += drawDiv(options.height - options.titleSize-AXES_WIDTH, AXES_WIDTH, "", "axis"); //Y-axis   
+    appendText += drawTicks(options.height - options.titleSize, WIDTH_OF_TICKS, data, options.yMax, options.numTicks); //Y-ticks  
+    appendText += drawDiv(options.height - options.titleSize - AXES_WIDTH, AXES_WIDTH, "", "axis"); //Y-axis   
 
-    //Subtract 10 from the width of the bars because there is less space due to axes
-    appendText += drawBars(data,options.yMax, options.height - options.titleSize-AXES_WIDTH, options.width - AXES_WIDTH-WIDTH_OF_TICKS, options.spacing, options.color, options.labelColor);
-    appendText += drawDiv(AXES_WIDTH, options.width-WIDTH_OF_TICKS, "", "axis"); //X -axis
-
-    appendText += drawXLabels(data, 20, options.width - AXES_WIDTH-WIDTH_OF_TICKS, options.spacing); //X -axis
+    appendText += drawBars(data, options.yMax, options.height - options.titleSize - AXES_WIDTH, options.width - AXES_WIDTH - WIDTH_OF_TICKS, options.spacing, options.color, options.labelColor);
+    appendText += drawDiv(AXES_WIDTH, options.width - WIDTH_OF_TICKS, "", "axis"); //X -axis
+    appendText += drawXLabels(data, 20, options.width - AXES_WIDTH - WIDTH_OF_TICKS, options.spacing); //X -axis
 
     appendText += '</div>';
     element.append(appendText);
 
+    //Sets properties. Must be executed after appending to the HTML element
     $(".barchart").css({ "height": options.height });
     $(".barchart").css({ "width": options.width });
     $(".axis").css({ "backgroundColor": "black" });
     $(".title").css({ "color": options.titleColor });
     $(".title").css({ "font-size": options.titleSize + "px" });
 
+    //Animations:
+    $(".axis").hide(); //start with the axes hidden
+    $(".axis").slideDown(); //slide down animation of axis
+    $(".bar").fadeIn(3000); //fade in the bars
     formatLabel(options.labelCentering, options.labelColor);
 }
 
 
-function drawTicks(h, w,d,yMax, nTicks) {
+function drawTicks(h, w, d, yMax, nTicks) {
     const SIZE_OF_TICKS = 3;
-    let sizeOfBlanks = (h-nTicks*SIZE_OF_TICKS)/nTicks;
+    let sizeOfBlanks = (h - nTicks * SIZE_OF_TICKS) / nTicks;
     console.log(yMax);
-    
-    if(yMax === undefined || yMax < findMax(d)){
+
+    if (yMax === undefined || yMax < findMax(d)) {
         yMax = findMax(d);
     }
 
     //creates a divider to put all the ticks in of height h, width w
     let st = '<div class="yticks" style="width:' + w + "px" +
         ';height:' + h +
-        'px;float:left;text-align:center">' ;
+        'px;float:left;text-align:center">';
 
-    for(let i = 0;i<nTicks;i++){
+    for (let i = 0; i < nTicks; i++) {
 
-        st += '<div  class="tick" style="width:' + w/3 + "px" +
-        ';height:' + SIZE_OF_TICKS +
-        'px;float:right;background-color:black">'+
-        '</div>' ;
+        st += '<div  class="tick" style="width:' + w / 3 + "px" +
+            ';height:' + SIZE_OF_TICKS +
+            'px;float:right;background-color:black">' +
+            '</div>';
 
-        st += '<div  class="tick" style="width:' + 2*w/3 + "px" +
-        ';height:' + SIZE_OF_TICKS +
-        'px;float:right">'+
-        ((nTicks-i)*yMax/nTicks).toFixed(1)+'</div>' ;
+        st += '<div  class="tick" style="width:' + 2 * w / 3 + "px" +
+            ';height:' + SIZE_OF_TICKS +
+            'px;float:right">' +
+            ((nTicks - i) * yMax / nTicks).toFixed(1) + '</div>';
 
-         st += '<div  class="blankSpace" style="width:' + w + "px" +
-        ';height:' + sizeOfBlanks +
-        'px;float:left;text-align:center"></div>' ;
+        st += '<div  class="blankSpace" style="width:' + w + "px" +
+            ';height:' + sizeOfBlanks +
+            'px;float:left;text-align:center"></div>';
 
     }
     return st + '</div>';
 }
 
-function arrayify(d){
+function arrayify(d) {
     //Changes any values that are not an array into an array of length one.
     //This is in order to ensure the rest of the functions can assume an array is given.
-    for (key of Object.keys(d)){     
+    for (key of Object.keys(d)) {
         let val = d[key];
-        if(typeof val != "object"){
+        if (typeof val != "object") {
             d[key] = [val];
         }
     }
@@ -82,38 +90,46 @@ function arrayify(d){
 }
 
 function formatLabel(cent, col) {
+    //Changes CSS style of label depending on where the user would like the label to be located
     switch (cent) {
-        case "top":
-            cent = 0;
+        case "top": //label at the top
+            $(".label").css({
+                "top": 3 + "px",
+                "color": col
+            });
             break;
-        case "middle":
-            cent = 50;
+        case "center": //label in the center
+            $(".label").css({
+                "top": 50 + "%",
+                "color": col
+            });
             break;
-        case "bottom":
-            cent = 70;
+        case "bottom": //label at the bottom
+            $(".label").css({
+                "bottom:": 3 + "px",
+                "color": col
+            });
             break;
+        default: //If not provided, defautls to in the middle
+            $(".label").css({
+                "top": 50 + "%",
+                "color": col
+            });
     }
 
-    if (isNaN(cent)) {
-        cent = 50;
-    }
 
-    $(".label").css({
-        "top": cent + "%",
-        "color": col
-    });
 
 }
 
 function setDefaults(options) {
     //This functions sets default parameters if they are not defined.
-    if(typeof options.color != "object"){ //Added in case the user provides only one color, not as an array
+    if (typeof options.color != "object") { //Added in case the user provides only one color, not as an array
         let c = options.color;
         options.color = [c];
     }
 
-    
-    if(typeof options.labelColor != "object"){ //Added in case the user provides only one color, not as an array
+
+    if (typeof options.labelColor != "object") { //Added in case the user provides only one color, not as an array
         let c = options.labelColor;
         options.labelColor = [c];
     }
@@ -158,8 +174,8 @@ function drawXLabels(data, h, w, bufferWidth) {
 
     for (barVals in data) {
         //Creates a label divider. The class xlabel can be manipulated as needed
-        st += '<div style="width:' + barWidth + "px" + ';height:' + h + 'px;float:left"> <span class="xlabel">'
-            + barVals + '</span></div>';
+        st += '<div class = "xlabel" style="width:' + barWidth + "px" + ';height:' + h + 'px"> '
+            + barVals + '</div>';
 
         //This adds a space after each bar
         st += '<div style="width:' + bufferWidth + "px" + ';height:' + h + 'px;float:left"></div>';
@@ -168,10 +184,10 @@ function drawXLabels(data, h, w, bufferWidth) {
 }
 
 
-function drawBars(data, maxVal, h, w, bufferWidth, colors,labelColors) {
-    if(maxVal === undefined || maxVal < findMax(data)){
+function drawBars(data, maxVal, h, w, bufferWidth, colors, labelColors) {
+    if (maxVal === undefined || maxVal < findMax(data)) {
         maxVal = findMax(data);//Finds the maximum value, normalizes the sizes of the bars using this value
-    } 
+    }
     let nBars = Object.keys(data).length; //# of bars of data we have to add
     let st = "";
 
@@ -188,8 +204,8 @@ function drawBars(data, maxVal, h, w, bufferWidth, colors,labelColors) {
     for (barVals in data) {
 
         //Adds a bar (containing data):
-
         st += '<div style="width:' + barWidth + "px" + ';height:' + h + 'px;float:left">';
+
         //Top part of the bar (the part that is not filled in)
         st += '<div style="width:' + 100 + "%" +
             ';height:' + h * (1 - sumVals(data[barVals]) / maxVal) +
@@ -202,17 +218,17 @@ function drawBars(data, maxVal, h, w, bufferWidth, colors,labelColors) {
             if (colors[i] === undefined) {
                 //Assigns a random color to the bar
                 colors[i] = "#" + randomHex();
-                
+
             }
-            if(labelColors[i] === undefined){
+            if (labelColors[i] === undefined) {
                 labelColors[i] = "black";
             }
 
             st += '<div class="bar" style="width:' + 100 + "%" +
                 ';height:' + h * (val / maxVal) +
-                'px;float:left;vertical-align:middle;background-color:' +
+                'px;background-color:' +
                 colors[i] +
-                '"><span class="label" style="color:'+labelColors[i] +'">' + val +
+                '"><span class="label" style="color:' + labelColors[i] + '">' + val +
                 '</span></div>';
         }
         //This adds a space after each bar
