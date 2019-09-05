@@ -20,20 +20,21 @@
     var opts = {
         height: 700,
         width: 1000,
-        color: ["#FFFF00"],
+        color: "#FFFF00",
         titleText: "asdf",
         titleColor: "Green",
         titleSize: "20",
         spacing: "20",
         labelCentering: "bottom",
+        labelColor: ["#e1974c","black"]
     };
 
     drawBarChart(
         {
-            label1: [1],
-            label2: [2],
-            label3: [3],
-            label4: [10]
+            label1: 1,
+            label2: 2,
+            label3: 3,
+            label4: 10
         }
 , opts, $("#demo"));
 

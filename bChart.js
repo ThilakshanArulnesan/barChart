@@ -2,7 +2,7 @@ function drawBarChart(data, options, element) {
     const AXES_WIDTH = 10;
     //Sets default properties if they are undefined
     options = setDefaults(options, data);
-
+    data = arrayify(data);
     let appendText = "";
     let blnTitle = options.titleText === undefined;
 
@@ -15,7 +15,7 @@ function drawBarChart(data, options, element) {
     appendText += drawDiv(options.height - options.titleSize, AXES_WIDTH, "", "axis"); //Y-axis   
 
     //Subtract 10 from the width of the bars because there is less space due to axes
-    appendText += drawBars(data, options.height - options.titleSize, options.width - AXES_WIDTH, options.spacing, options.color);
+    appendText += drawBars(data, options.height - options.titleSize, options.width - AXES_WIDTH, options.spacing, options.color, options.labelColor);
     appendText += drawDiv(AXES_WIDTH, options.width, "", "axis"); //X -axis
 
     appendText += drawXLabels(data, 20, options.width - AXES_WIDTH, options.spacing); //X -axis
@@ -30,6 +30,18 @@ function drawBarChart(data, options, element) {
     $(".title").css({ "font-size": options.titleSize + "px" });
 
     formatLabel(options.labelCentering, options.labelColor);
+}
+
+function arrayify(d){
+    //Changes any values that are not an array into an array of length one.
+    //This is in order to ensure the rest of the functions can assume an array is given.
+    for (key of Object.keys(d)){     
+        let val = d[key];
+        if(typeof val != "object"){
+            d[key] = [val];
+        }
+    }
+    return d;
 }
 
 function formatLabel(cent, col) {
@@ -58,6 +70,17 @@ function formatLabel(cent, col) {
 
 function setDefaults(options) {
     //This functions sets default parameters if they are not defined.
+    if(typeof options.color != "object"){ //Added in case the user provides only one color, not as an array
+        let c = options.color;
+        options.color = [c];
+    }
+
+    
+    if(typeof options.labelColor != "object"){ //Added in case the user provides only one color, not as an array
+        let c = options.labelColor;
+        options.labelColor = [c];
+    }
+
     if (options.width === undefined) options.width = 500;
     if (options.height === undefined) options.height = 500;
     if (options.color === undefined) options.color = ["#7293cb", "#e1974c", "#84ba5b", "#d35e60"];
@@ -106,7 +129,7 @@ function drawXLabels(data, h, w, bufferWidth) {
 }
 
 
-function drawBars(data, h, w, bufferWidth, colors) {
+function drawBars(data, h, w, bufferWidth, colors,labelColors) {
     let maxVal = findMax(data); //Finds the maximum value, normalizes the sizes of the bars using this value
     let nBars = Object.keys(data).length; //# of bars of data we have to add
     let st = "";
@@ -139,14 +162,17 @@ function drawBars(data, h, w, bufferWidth, colors) {
             if (colors[i] === undefined) {
                 //Assigns a random color to the bar
                 colors[i] = "#" + randomHex();
-
+                
+            }
+            if(labelColors[i] === undefined){
+                labelColors[i] = "black";
             }
 
             st += '<div class="bar" style="width:' + 100 + "%" +
                 ';height:' + h * (val / maxVal) +
                 'px;float:left;vertical-align:middle;background-color:' +
                 colors[i] +
-                '"><span class="label">' + val +
+                '"><span class="label" style="color:'+labelColors[i] +'">' + val +
                 '</span></div>';
         }
         //This adds a space after each bar
