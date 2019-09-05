@@ -11,30 +11,7 @@
 
 
 <body id="demo">
-    <!-- <div style="width:10px;height:500px;float: left">
-        <div style="width:10px;height:25%;background-color:red"> 1 </div>
-        <div style="width:10px;height:25%;background-color:green"> 2 </div>
-        <div style="width:10px;height:25%;background-color:blue;color: white"> 3 </div>
-    </div>
-
-    <div style="width:10px;height:500px;background-color: black;float: left"></div>
-
-    <div style="width:30px;height:500px;float:left">
-        <div style="width:100%;height:300px;float: left"></div>
-        <div style="width:100%;height:200px;background-color: yellow;float: left"></div>
-    </div>
-
-    <div style="width:30px;height:500px;float:left">
-            <div style="width:100%;height:200px;float: left"></div>
-            <div style="width:100%;height:300px;background-color: yellow;float: left"></div>
-        </div>
-
-    <div style="width:30px;height:300px;background-color: green;float:left"></div>
-    <div style="width:30px;height:400px;background-color: green;float:left"></div>
-    <div style="width:30px;height:500px;background-color: green"></div>
-
-    <div style="width:500px;height:10px;background-color: black"></div>
--->
+   
 </body>
 
 
@@ -43,7 +20,7 @@
     var opts = {
         height: 700,
         width: 1000,
-        color: "#00FF00",
+        color: ["#FFFF00"],
         titleText: "asdf",
         titleColor: "Green",
         titleSize: "20",
@@ -53,10 +30,21 @@
 
     drawBarChart(
         {
-            label1: 1,
-            label2: 2,
-            label3: 3,
-            label4: 10
+            label1: [1],
+            label2: [2],
+            label3: [3],
+            label4: [10]
         }
 , opts, $("#demo"));
+
+
+drawBarChart(
+        {
+            label1: [1,2],
+            label2: [2,3],
+            label3: [3,1],
+            label4: [10,1]
+        }
+, opts, $("#demo"));
+
 </script>
