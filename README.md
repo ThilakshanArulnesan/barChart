@@ -63,6 +63,7 @@ maximum value for the dataset, then the max value of the dataset is used instead
 ## Known issues/bugs
 - Y-axis labels do not line up exactly with the tick marks
 
+
 ## Features  to be added
 1) Legend
 

@@ -8,39 +8,38 @@ function drawBarChart(data, options, element) {
 
     let appendText = ""; //This will be where all the HTML that is being added will be stored as a string
 
-    let blnTitle = options.titleText === undefined; //Is there a title or not?
-
-    appendText += '<div class="barchart" >'; //Container for the entire barchart
+    appendText += '<div class="barchart" style="height:' +
+        options.height + "px;width:" + options.width
+        + 'px">'; //Container for the entire barchart
 
     if (options.titleText !== undefined) { //Adds a title divider with the title text if there is a title
-        appendText += drawDiv(options.titleSize, options.width, options.titleText, "title"); //Title
+        appendText += drawTitle(options.titleSize, options.width, options.titleText, options.titleColor); //Title
     } else {
         options.titleSize = 0;
     }
 
     appendText += drawTicks(options.height - options.titleSize, WIDTH_OF_TICKS, data, options.yMax, options.numTicks); //Y-ticks  
     appendText += drawDiv(options.height - options.titleSize - AXES_WIDTH, AXES_WIDTH, "", "axis"); //Y-axis   
-
     appendText += drawBars(data, options.yMax, options.height - options.titleSize - AXES_WIDTH, options.width - AXES_WIDTH - WIDTH_OF_TICKS, options.spacing, options.color, options.labelColor);
     appendText += drawDiv(AXES_WIDTH, options.width - WIDTH_OF_TICKS, "", "axis"); //X -axis
     appendText += drawXLabels(data, 20, options.width - AXES_WIDTH - WIDTH_OF_TICKS, options.spacing); //X -axis
-
-    appendText += '</div>';
+    appendText += '</div>'; //closes the barchart div
     element.append(appendText);
-
-    //Sets properties. Must be executed after appending to the HTML element
-    $(".barchart").css({ "height": options.height });
-    $(".barchart").css({ "width": options.width });
-    $(".axis").css({ "backgroundColor": "black" });
-    $(".title").css({ "color": options.titleColor });
-    $(".title").css({ "font-size": options.titleSize + "px" });
+    formatLabel(options.labelCentering, options.labelColor, element); //centers label as needed
 
     //Animations:
-    $(".axis").hide(); //start with the axes hidden
-    $(".axis").slideDown(); //slide down animation of axis
     $(".bar").fadeIn(3000); //fade in the bars
-    formatLabel(options.labelCentering, options.labelColor);
 }
+
+
+function drawTitle(h, w, text, col) {
+    //creates title div along with color
+    let st = '<div id="title" class="F" style="width:' + w + "px" +
+        ';height:' + h +
+        'px;color:' + col + ';font-size:' + h + 'px;float:left;text-align:center">' + text + '</div>';
+    return st;
+}
+
 
 
 function drawTicks(h, w, d, yMax, nTicks) {
@@ -89,29 +88,28 @@ function arrayify(d) {
     return d;
 }
 
-function formatLabel(cent, col) {
+function formatLabel(cent, col, e) {
+    console.log(cent);
     //Changes CSS style of label depending on where the user would like the label to be located
     switch (cent) {
         case "top": //label at the top
-            $(".label").css({
-                "top": 3 + "px",
-                "color": col
+            e.find(".label").css({
+                "top": "3px"
             });
             break;
         case "center": //label in the center
-            $(".label").css({
-                "top": 50 + "%",
-                "color": col
+            e.find(".label").css({
+                "top": 50 + "%"
             });
             break;
         case "bottom": //label at the bottom
-            $(".label").css({
-                "bottom:": 3 + "px",
-                "color": col
+            e.find(".label").css({
+                "bottom": "3px"
             });
+
             break;
         default: //If not provided, defautls to in the middle
-            $(".label").css({
+            e.find(".label").css({
                 "top": 50 + "%",
                 "color": col
             });

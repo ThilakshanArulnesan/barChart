@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+
+<head>
+
+    <title>BarChart Demo Page</title>
+    <script src="bChart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body id="demo">
+    <h1> First Chart</h1>
+    <h1 id="Chart1">
+
+    </h1>
+    <p>This barchart has been generated using the parameters:</p>
+    <ul>
+        <li>height: 900 </li>
+        <li>width: 900</li>
+        <li>color: "#7293cb"</li>
+        <li>titleText: "Demo barchart"</li>
+        <li>titleColor: "Blue"</li>
+        <li>titleSize: "30"</li>
+        <li>spacing: "20"</li>
+        <li>labelCentering: "top"</li>
+        <li>labelColor: "black"</li>
+        <li>numTicks: 5</li>
+        <li>yMax: 15</li>
+
+
+    </ul>
+    <p> With the given data [100,200,150,50]. Note that since the data's max value is greater
+        than the max value provided as a parameter (yMax), the scale is set by the max value of the data.
+    </p>
+    <h1 id="Chart2">
+
+    </h1>
+    <p>This stacked barchart has been generated using the parameters:</p>
+    <ul>
+        <li> height: 500 </li>
+        <li>width: 500</li>
+        <li>color: ["#7293cb","#e1974c"]</li>
+        <li>titleText: "Demo stacked barchart"</li>
+        <li>titleColor: "Blue"</li>
+        <li>titleSize: "30"</li>
+        <li>spacing: "50"</li>
+        <li>labelCentering: "center"</li>
+        <li>labelColor: ["red", "white"]</li>
+        <li>numTicks: 7</li>
+        <li>yMax: 7</li>
+
+
+    </ul>
+    <p> With the given data [ [1, 2], [2, 3], [3, 1]]. Note that the label colors and the bar
+        colors can be changed individually (an array the same size as the stacked data must be used). Note that the
+        width of the bars
+        depends on the spacing between the bars as well as the width of the barchart overall.
+
+    </p>
+
+    <h2 id="Chart3">
+
+    </h2>
+    <p> This last chart is similar to the last two, except now three stacked bars are shown.
+        This stacked barchart has been generated using the parameters:</p>
+    <ul>
+        <li>height: 900 </li>
+        <li>width: 1000</li>
+        <li>["#7293cb", "#e1974c", "#84ba5b"]</li>
+        <li>titleText: "Three stacked bars"</li>
+        <li>titleColor: "purple"</li>
+        <li>titleSize: "30"</li>
+        <li>spacing: "20"</li>
+        <li>labelCentering: "bottom"</li>
+        <li>labelColor: ["red", "white"]</li>
+        <li>numTicks: 3</li>
+        <li>yMax: 15</li>
+    </ul>
+    <p> The data for the stacked bar chart was:
+        [ [1, 2, 4],
+        [2, 3, 4],
+        [3, 1, 7],
+        [10, 1, 2] ]. Note that if a label color is not specified, the color black is used by default. The width of the
+        bars will vary with the amount of data presented.
+    </p>
+</body>
+
+
+<script>
+    let opts = {
+        height: 900,
+        width: 900,
+        color: "#7293cb",
+        titleText: "Demo barchart",
+        titleColor: "Blue",
+        titleSize: "30",
+        spacing: "20",
+        labelCentering: "top",
+        labelColor: "black",
+        numTicks: 5,
+        yMax: 15
+    };
+    $(document).ready(drawBarChart(
+        {
+            "Label 1": 100,
+            "Label 2": 200,
+            "Label 3": 150,
+            "Label 4": 50
+        }
+        , opts, $("#Chart1")));
+
+    let opts2 = {
+        height: 500,
+        width: 500,
+        color: ["#7293cb", "#e1974c"],
+        titleText: "Demo stacked barchart",
+        titleColor: "black",
+        titleSize: "30",
+        spacing: "50",
+        labelCentering: "center",
+        labelColor: ["red", "white"],
+        numTicks: 7,
+        yMax: 7
+    };
+    $(document).ready(drawBarChart(
+        {
+            "Option 1": [1, 2],
+            "Option 2": [2, 3],
+            "Option 3": [3, 1],
+
+        }
+        , opts2, $("#Chart2")));
+
+
+    let opts3 = {
+        height: 900,
+        width: 1000,
+        color: ["#7293cb", "#e1974c", "#84ba5b"],
+        titleText: "Three stacked bars",
+        titleColor: "purple",
+        titleSize: "30",
+        spacing: "20",
+        labelCentering: "bottom",
+        labelColor: ["red", "white", "black"],
+        numTicks: 3,
+        yMax: 15
+    };
+    $(document).ready(drawBarChart(
+        {
+            "Category 1": [1, 2, 4],
+            "Category 2": [2, 3, 4],
+            "Category 3": [3, 1, 7],
+            "Category 4": [10, 1, 2],
+            "Category 5": [3, 2, 1]
+
+        }
+        , opts3, $("#Chart3")));
+</script>
