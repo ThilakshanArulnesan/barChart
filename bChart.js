@@ -161,7 +161,7 @@ function formatLabel(cent, col, e) {
 
 function drawTicks(h, w, d, yMax, nTicks) {
   // This function adds ticks to the y-axis based on the max value of the data or the max value provided by the user
-  const SIZE_OF_TICKS = 3; 
+  const SIZE_OF_TICKS = 3;
   let sizeOfBlanks = (h - nTicks * SIZE_OF_TICKS) / nTicks; //This is the empty space in between the ticks.
 
   if (yMax === undefined || yMax < findMax(d)) { //If the user has not specified a maxvalue OR the user's max value is too low, use the max value of the data
@@ -176,7 +176,7 @@ function drawTicks(h, w, d, yMax, nTicks) {
   for (let i = 0; i < nTicks; i++) {
 
     //Draw a tick
-    st += '<div  class="tick" style="width:' + w / 3 + "px" + 
+    st += '<div  class="tick" style="width:' + w / 3 + "px" +
       ';height:' + SIZE_OF_TICKS +
       'px;float:right;background-color:black">' +
       '</div>';
