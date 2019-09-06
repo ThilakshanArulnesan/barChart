@@ -11,9 +11,91 @@ If you would like to see a demo, please refer to the index.html provided or the 
 
 ## Examples
 
+![Barchart Example](screenshots/s1.png?raw=true "Barchart 1")
+ This chart was generated using
+ drawBarChart({
+ 
+            "Label 1": 100,
+            "Label 2": 200,
+            "Label 3": 150,
+            "Label 4": 50
+ 
+ },{
+ 
+        height: 900,
+        width: 900,
+        color: "#7293cb",
+        titleText: "Demo barchart",
+        titleColor: "Blue",
+        titleSize: "30",
+        spacing: "20",
+        labelCentering: "top",
+        labelColor: "black",
+        numTicks: 5,
+        yMax: 15
+ 
+ },$("#elementid));
+ 
+  With the given data [100,200,150,50]. Note that since the data's max value is greater than the max value provided as a parameter (yMax), the scale is set by the max value of the data.
 
 
+![Barchart Example 2](screenshots/s2.png?raw=true "Barchart 2")
+drawBarChart({
+ 
+            "Option 1": [1, 2],
+            "Option 2": [2, 3],
+            "Option 3": [3, 1],
+ 
+ },{
+ 
+        height: 500,
+        width: 500,
+        color: ["#7293cb", "#e1974c"],
+        titleText: "Demo stacked barchart",
+        titleColor: "black",
+        titleSize: "30",
+        spacing: "50",
+        labelCentering: "center",
+        labelColor: ["red", "white"],
+        numTicks: 7,
+        yMax: 7
 
+ 
+ },$("#elementid));
+
+Note that the label colors and the bar
+        colors can be changed individually (an array the same size as the stacked data must be used). Note that the
+        width of the bars
+        depends on the spacing between the bars as well as the width of the barchart overall.
+
+
+![Barchart Example 3](screenshots/s3.png?raw=true "Barchart 3")
+drawBarChart({
+
+       "Category 1": [1, 2, 4],
+            "Category 2": [2, 3, 4],
+            "Category 3": [3, 1, 7],
+            "Category 4": [10, 1, 2],
+            "Category 5": [3, 2, 1]
+ 
+ },{
+ 
+       height: 900,
+        width: 1000,
+        color: ["#7293cb", "#e1974c", "#84ba5b"],
+        titleText: "Three stacked bars",
+        titleColor: "purple",
+        titleSize: "30",
+        spacing: "20",
+        labelCentering: "bottom",
+        labelColor: ["red", "white", "black"],
+        numTicks: 3,
+        yMax: 15
+ 
+ },$("#elementid));
+
+ Note that if a label color is not specified, the color black is used by default. The width of the
+        bars will vary with the amount of data presented.
 ## API Functions/Parameters
 
 ### Parameter: Data 
