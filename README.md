@@ -39,7 +39,7 @@ If you would like to see a demo, please refer to the index.html provided or the 
   With the given data [100,200,150,50]. Note that since the data's max value is greater than the max value provided as a parameter (yMax), the scale is set by the max value of the data.
 
 
-![Barchart Example 2](screenshots/s2.png?raw=true "Barchart 2")
+![Barchart Example 2](screenshots/S2.png?raw=true "Barchart 2")
 drawBarChart({
  
             "Option 1": [1, 2],
@@ -69,7 +69,7 @@ Note that the label colors and the bar
         depends on the spacing between the bars as well as the width of the barchart overall.
 
 
-![Barchart Example 3](screenshots/s3.png?raw=true "Barchart 3")
+![Barchart Example 3](screenshots/S3.png?raw=true "Barchart 3")
 drawBarChart({
 
        "Category 1": [1, 2, 4],
